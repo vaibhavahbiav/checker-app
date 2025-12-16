@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/checker-app/static/css/main.706ec348.css",
-    "main.js": "/checker-app/static/js/main.ccfcc101.js",
+    "main.css": "/checker-app/static/css/main.cecb1049.css",
+    "main.js": "/checker-app/static/js/main.f7f5bfdd.js",
     "static/js/453.a0846bc3.chunk.js": "/checker-app/static/js/453.a0846bc3.chunk.js",
     "index.html": "/checker-app/index.html",
-    "main.706ec348.css.map": "/checker-app/static/css/main.706ec348.css.map",
-    "main.ccfcc101.js.map": "/checker-app/static/js/main.ccfcc101.js.map",
+    "main.cecb1049.css.map": "/checker-app/static/css/main.cecb1049.css.map",
+    "main.f7f5bfdd.js.map": "/checker-app/static/js/main.f7f5bfdd.js.map",
     "453.a0846bc3.chunk.js.map": "/checker-app/static/js/453.a0846bc3.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.706ec348.css",
-    "static/js/main.ccfcc101.js"
+    "static/css/main.cecb1049.css",
+    "static/js/main.f7f5bfdd.js"
   ]
 }
