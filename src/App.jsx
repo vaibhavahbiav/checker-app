@@ -4,7 +4,7 @@ import WithModel from './components/WithModel';
 
 function App() {
   return (
-    <div className='relative'>
+    <div className='relative selection:bg-green-800/70'>
       <div className='absolute top-1 left-1 lg:top-4 lg:left-6 shadow-md cursor-pointer border-b-2 border-green-800'>
         <h1 className='text-sm lg:text-xl font-mono tracking-wide text-green-950 drop-shadow bg-white px-3 py-1'>Check Yourself</h1>
       </div>
