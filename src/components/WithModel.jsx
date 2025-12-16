@@ -46,11 +46,9 @@ const symptomToOrgan = {
 
 function Organs3D({ activeItems, onHoverOrgan, onHoverPointer }) {
     const activeOrgans = new Set(
-        activeItems
-            .map((symptom) => symptomToOrgan[symptom])
-            .filter(Boolean)
+        activeItems.map((symptom) => symptomToOrgan[symptom]).filter(Boolean)
     );
-
+    
     const handleOver = (organ) => (e) => {
         e.stopPropagation();
         onHoverOrgan(organ);
@@ -70,7 +68,7 @@ function Organs3D({ activeItems, onHoverOrgan, onHoverPointer }) {
             <mesh position={[0, 1.2, 0]} onPointerOver={handleOver("Head")} onPointerOut={handleOut}>
                 <sphereGeometry args={[0.4, 32, 32]} />
                 <meshStandardMaterial
-                    color={activeOrgans.has("head") ? "orange" : "#9ca3af"}
+                    color={activeOrgans.has("head") ? "orange" : "#ffffff"}
                     emissive={activeOrgans.has("head") ? "orange" : "#000000"}
                     emissiveIntensity={activeOrgans.has("head") ? 0.5 : 0}
                 />
@@ -80,7 +78,7 @@ function Organs3D({ activeItems, onHoverOrgan, onHoverPointer }) {
             <mesh position={[0.0, 0.3, 0.0]} onPointerOver={handleOver("heart")} onPointerOut={handleOut}>
                 <sphereGeometry args={[0.25, 32, 32]} />
                 <meshStandardMaterial
-                    color={activeOrgans.has("heart") ? "pink" : "#9ca3af"}
+                    color={activeOrgans.has("heart") ? "pink" : "#ffffff"}
                     emissive={activeOrgans.has("heart") ? "pink" : "#000000"}
                     emissiveIntensity={activeOrgans.has("heart") ? 0.5 : 0}
                 />
@@ -90,7 +88,7 @@ function Organs3D({ activeItems, onHoverOrgan, onHoverPointer }) {
             <mesh position={[-0.3, -0.5, 0]} onPointerOver={handleOver("liver")} onPointerOut={handleOut}>
                 <boxGeometry args={[0.2, 0.4, 0.4]} />
                 <meshStandardMaterial
-                    color={activeOrgans.has("liver") ? "purple" : "#9ca3af"}
+                    color={activeOrgans.has("liver") ? "purple" : "#ffffff"}
                     emissive={activeOrgans.has("liver") ? "purple" : "#000000"}
                     emissiveIntensity={activeOrgans.has("liver") ? 0.5 : 0}
                 />
@@ -98,7 +96,7 @@ function Organs3D({ activeItems, onHoverOrgan, onHoverPointer }) {
             <mesh position={[0.3, -0.5, 0]} onPointerOver={handleOver("liver")} onPointerOut={handleOut}>
                 <boxGeometry args={[0.2, 0.4, 0.4]} />
                 <meshStandardMaterial
-                    color={activeOrgans.has("liver") ? "purple" : "#9ca3af"}
+                    color={activeOrgans.has("liver") ? "purple" : "#ffffff"}
                     emissive={activeOrgans.has("liver") ? "purple" : "#000000"}
                     emissiveIntensity={activeOrgans.has("liver") ? 0.5 : 0}
                 />
@@ -108,7 +106,7 @@ function Organs3D({ activeItems, onHoverOrgan, onHoverPointer }) {
             <mesh position={[-0.5, -1.2, 0]} onPointerOver={handleOver("lung")} onPointerOut={handleOut}>
                 <boxGeometry args={[0.3, 0.5, 0.4]} />
                 <meshStandardMaterial
-                    color={activeOrgans.has("lungs") ? "blue" : "#9ca3af"}
+                    color={activeOrgans.has("lungs") ? "blue" : "#ffffff"}
                     emissive={activeOrgans.has("lungs") ? "blue" : "#000000"}
                     emissiveIntensity={activeOrgans.has("lungs") ? 0.5 : 0}
                 />
@@ -116,7 +114,7 @@ function Organs3D({ activeItems, onHoverOrgan, onHoverPointer }) {
             <mesh position={[0.5, -1.2, 0]} onPointerOver={handleOver("lung")} onPointerOut={handleOut}>
                 <boxGeometry args={[0.3, 0.5, 0.4]} />
                 <meshStandardMaterial
-                    color={activeOrgans.has("lungs") ? "blue" : "#9ca3af"}
+                    color={activeOrgans.has("lungs") ? "blue" : "#ffffff"}
                     emissive={activeOrgans.has("lungs") ? "blue" : "#000000"}
                     emissiveIntensity={activeOrgans.has("lungs") ? 0.5 : 0}
                 />
@@ -126,7 +124,7 @@ function Organs3D({ activeItems, onHoverOrgan, onHoverPointer }) {
             <mesh position={[0.0, -2, 0]} rotation={[0, 0, Math.PI / 2]} onPointerOver={handleOver("stomach")} onPointerOut={handleOut}>
                 <capsuleGeometry args={[0.2, 0.7, 4, 8]} />
                 <meshStandardMaterial
-                    color={activeOrgans.has("stomach") ? "yellow" : "#9ca3af"}
+                    color={activeOrgans.has("stomach") ? "yellow" : "#ffffff"}
                     emissive={activeOrgans.has("stomach") ? "yellow" : "#000000"}
                     emissiveIntensity={activeOrgans.has("stomach") ? 0.5 : 0}
                 />
@@ -177,7 +175,7 @@ export default function WithModel() {
             matched.forEach((m) => {
                 if (!next.includes(m)) next.push(m);
             });
-            // scroll all matched
+            // scroll to matched
             setTimeout(() => {
                 matched.forEach((m) => {
                     const el = listRefs.current[m];
@@ -236,7 +234,7 @@ export default function WithModel() {
                 <p className="mt-3 text-xs text-green-950 drop-shadow">How to - Select words on the right side or click a symptom on the left to highlight the same symptom and its organ in the 3D model.</p>
 
                 {/* 3d model implementation, vaguely human but working as intended */}
-                <div className="mt-6 bg-stone-100 border-b-2 border-green-800 shadow overflow-hidden w-full md:w-[70%] place-self-center">
+                <div className="mt-6 bg-stone-100 border-b-2 border-green-800 shadow overflow-hidden w-full place-self-center">
                     <div className="px-4 py-2">
                         <div className="border-l-2 border-green-800 pl-4">
                             <h3 className="font-semibold text-sm md:text-base text-green-950 drop-shadow">
