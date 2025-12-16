@@ -21,7 +21,8 @@ const symptoms = [
     "Dizzyness",
     "Mood Swings",
     "Shakiness",
-    "Dull Dain Or Discomfort In The Upper Right Abdomen",
+    "Dull Pain",
+    "Discomfort In The Upper Right Abdomen",
     "Unexplained Weight Loss"
 ];
 
@@ -40,7 +41,8 @@ const symptomToOrgan = {
     "Nausea": "stomach",
     "Vomiting": "stomach",
     "Diarrhea": "stomach",
-    "Dull Dain Or Discomfort In The Upper Right Abdomen": "liver",
+    "Dull Pain": "liver",
+    "Discomfort In The Upper Right Abdomen": "liver",
     "Unexplained Weight Loss": "liver",
 };
 
@@ -129,7 +131,7 @@ function Organs3D({ activeItems, onHoverOrgan, onHoverPointer }) {
                     emissiveIntensity={activeOrgans.has("stomach") ? 0.5 : 0}
                 />
             </mesh>
-
+            
             <OrbitControls enablePan={false} />
         </Canvas>
     );
