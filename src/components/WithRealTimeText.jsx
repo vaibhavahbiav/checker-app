@@ -260,7 +260,7 @@ export default function WithRealTimeText() {
                             Patient Description
                         </h2>
                         <textarea
-                            className="p-2 w-full h-40 md:h-56 lg:h-64 resize-none outline-none text-stone-800 bg-stone-50 placeholder:text-stone-400 placeholder:italic focus:shadow"
+                            className="p-2 w-full h-40 md:h-56 lg:h-64 resize-none outline-none text-stone-800 bg-stone-50 placeholder:text-stone-400 placeholder:italic focus:shadow transition-all"
                             value={description}
                             placeholder="your symptoms..."
                             onMouseUp={handleSelect}
