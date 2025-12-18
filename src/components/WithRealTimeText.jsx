@@ -14,6 +14,7 @@ const symptoms = [
     "Vomiting",
     "Diarrhea",
     "Hair loss",
+    "Hair Thinning",
     "Burning Sensation",
     "Tingling",
     "Itchiness",
@@ -32,6 +33,9 @@ const symptomToOrgan = {
     "Dizzyness": "head",
     "Mood Swings": "head",
     "Insomnia": "head",
+    "Hair loss": "head",
+    "Hair Thinning":"stomach",
+    "Burning Sensation": "head",
     "Cough": "lungs",
     "Shortness of breath": "lungs",
     "Sore throat": "lungs",
@@ -50,7 +54,7 @@ function Organs3D({ activeItems, onHoverOrgan, onHoverPointer }) {
     const activeOrgans = new Set(
         activeItems.map((symptom) => symptomToOrgan[symptom]).filter(Boolean)
     );
-    
+
     const handleOver = (organ) => (e) => {
         e.stopPropagation();
         onHoverOrgan(organ);
@@ -131,24 +135,25 @@ function Organs3D({ activeItems, onHoverOrgan, onHoverPointer }) {
                     emissiveIntensity={activeOrgans.has("stomach") ? 0.5 : 0}
                 />
             </mesh>
-            
+
             <OrbitControls enablePan={false} />
         </Canvas>
     );
 }
 
 
-export default function WithModel() {
+export default function WithRealTimeText() {
     const [activeItems, setActiveItems] = useState([]);
     const [hoveredOrgan, setHoveredOrgan] = useState(null);
     const [pointerPos, setPointerPos] = useState({ x: 0, y: 0 });
 
+    const [description, setDescription] = useState("");
 
     const toggleSymptom = (item) => {
         setActiveItems((prev) =>
             prev.includes(item)
-                ? prev.filter((s) => s !== item) // remove when reselected
-                : [...prev, item]                // add
+                ? prev.filter((s) => s !== item)
+                : [...prev, item]
         );
     };
 
@@ -188,16 +193,42 @@ export default function WithModel() {
         });
     };
 
+    // smallcase and removes everything except small case or normalize i guess
+    const normalize = (str) => str.toLowerCase().replace(/[^a-z0-9\s]/g, " ");
+
+    const updateActiveFromText = (text) => {
+        const normalizedText = normalize(text);
+
+        const textWords = new Set(
+            normalizedText.split(/\s+/).filter(Boolean)
+        );
+
+        const matched = symptoms.filter((symptom) => {
+            const words = normalize(symptom).split(/\s+/).filter(Boolean);
+            // matches any word/s to string. and it is Set so no duplicates
+            return words.some((w) => textWords.has(w));
+        });
+
+        setActiveItems(matched);
+    };
+
+
+    const handleDescriptionChange = (e) => {
+        const value = e.target.value;
+        setDescription(value);
+        updateActiveFromText(value);
+    };
+
     return (
         <div className="w-full min-h-screen flex items-center justify-center bg-gradient-to-r from-green-500/30 to-80% to-green-200/30 font-mono">
             <div className="w-full max-w-5xl mx-auto px-10 py-12 sm:px-20 md:px-10">
                 <div className="flex flex-col-reverse space-y-5 md:space-y-0 md:flex-row md:space-x-5 xl:space-x-10">
                     {/* left side */}
-                    <div className="mt-3 md:mt-0 md:w-1/2 w-full bg-stone-100 border-b-2 border-green-800 shadow py-2 pl-4">
-                        <h2 className="font-semibold mb-2 text-sm border-l-2 border-green-800 pl-4 md:text-base drop-shadow xl:text-lg">
+                    <div className="mt-3 md:mt-0 md:w-1/2 w-full bg-stone-100 border-b-2 border-green-800 shadow py-2 pl-4 pr-1">
+                        <h2 className="font-semibold mb-2 text-lg border-l-2 border-green-800 pl-4 md:text-base drop-shadow xl:text-lg">
                             Symptoms
                         </h2>
-                        <ul className="space-y-1 text-sm md:text-base max-h-80 overflow-y-auto px-4">
+                        <ul className="space-y-1 text-sm md:text-base max-h-80 overflow-y-auto px-4 custom-scrollbar">
                             {symptoms.map((item) => {
                                 const isActive = activeItems.includes(item);
                                 return (
@@ -207,7 +238,7 @@ export default function WithModel() {
                                             listRefs.current[item] = el;
                                         }}
                                         onClick={() => toggleSymptom(item)}
-                                        className={`py-3 px-1 cursor-pointer transition-all ${isActive
+                                        className={`py-2 sm:py-3 px-1 cursor-pointer transition-all ${isActive
                                             ? "border-b-2 border-green-800 text-stone-950 bg-gradient-to-r from-green-500/30 to-80% to-green-200/30 font-semibold pl-3"
                                             : "hover:bg-gray-100"
                                             }`}
@@ -225,24 +256,31 @@ export default function WithModel() {
                     </span>
 
                     {/* right side */}
-                    <div className="md:w-1/2 w-full bg-stone-100 border-b-2 border-green-800 shadow  text-sm md:text-base leading-relaxed px-4 py-2">
-                        <h2 className="font-semibold mb-2 text-sm border-l-2 border-green-800 pl-4 md:text-base drop-shadow xl:text-lg">
+                    <div className="md:w-1/2 w-full bg-stone-100 border-b-2 border-green-800 shadow text-sm md:text-base leading-relaxed px-4 py-2">
+                        <h2 className="font-semibold mb-2 text-lg border-l-2 border-green-800 pl-4 md:text-base drop-shadow xl:text-lg">
                             Patient Description
                         </h2>
-                        <p className="text-gray-800" onMouseUp={handleSelect}>The patient complains of persistent fever and severe headache over the last three days. There is also a dry cough and mild shortness of breath on exertion. Fatigue and sore throat were noted at the start of the illness. The patient denies nausea, vomiting, or diarrhea. More description for abdomen pains and sudden weight loss, just to show the liver part.</p>
+                        <textarea
+                            className="p-2 w-full h-40 md:h-56 lg:h-64 resize-none outline-none text-stone-800 bg-transparent placeholder:text-stone-400 placeholder:italic focus:shadow "
+                            value={description}
+                            placeholder="your symptoms..."
+                            onMouseUp={handleSelect}
+                            onChange={handleDescriptionChange}
+                        />
                     </div>
+
                 </div>
 
-                <p className="mt-3 text-xs text-green-950 drop-shadow">How to - Select words on the right side or click a symptom on the left to highlight the same symptom and its organ in the 3D model.</p>
+                <p className="mt-3 text-xs text-green-950 drop-shadow">How to - Now you can type on your own. And you can also select like earlier which is unnecessary, but you can.</p>
 
                 {/* 3d model implementation, vaguely human but working as intended */}
                 <div className="mt-6 bg-stone-100 border-b-2 border-green-800 shadow overflow-hidden w-full place-self-center">
                     <div className="px-4 py-2">
                         <div className="border-l-2 border-green-800 pl-4">
-                            <h3 className="font-semibold text-sm md:text-base text-green-950 drop-shadow">
+                            <h3 className="font-semibold text-base text-green-950 drop-shadow leading-snug">
                                 3D model very remotely ressembling human organs
                             </h3>
-                            <p className="text-xs text-green-900">
+                            <p className="text-xs text-green-900 mt-2">
                                 Higlights different organs corresponding to the selected symptoms.
                             </p>
                         </div>
