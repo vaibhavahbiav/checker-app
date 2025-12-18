@@ -34,7 +34,7 @@ const symptomToOrgan = {
     "Mood Swings": "head",
     "Insomnia": "head",
     "Hair loss": "head",
-    "Hair Thinning":"stomach",
+    "Hair Thinning": "stomach",
     "Burning Sensation": "head",
     "Cough": "lungs",
     "Shortness of breath": "lungs",
@@ -140,7 +140,6 @@ function Organs3D({ activeItems, onHoverOrgan, onHoverPointer }) {
         </Canvas>
     );
 }
-
 
 export default function WithRealTimeText() {
     const [activeItems, setActiveItems] = useState([]);
@@ -261,7 +260,7 @@ export default function WithRealTimeText() {
                             Patient Description
                         </h2>
                         <textarea
-                            className="p-2 w-full h-40 md:h-56 lg:h-64 resize-none outline-none text-stone-800 bg-transparent placeholder:text-stone-400 placeholder:italic focus:shadow "
+                            className="p-2 w-full h-40 md:h-56 lg:h-64 resize-none outline-none text-stone-800 bg-stone-50 placeholder:text-stone-400 placeholder:italic focus:shadow"
                             value={description}
                             placeholder="your symptoms..."
                             onMouseUp={handleSelect}
